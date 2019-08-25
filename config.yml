@@ -7,8 +7,8 @@ labels:
         - Cost
 
     food_cols:
-        - Heaps Pies
-        - Fries
+        - Bar Limon Pepper
+        - Halfway Cooks
         - Cheese
 
     merch_cols:
