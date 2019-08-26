@@ -18,6 +18,8 @@ from google.auth.transport.requests import Request
 from google.auth.exceptions import TransportError
 from httplib2 import ServerNotFoundError
 
+ONLY_SHOW_FOOD=True
+
 RPI=0
 UBUNTU=1
 MACOSX=2
@@ -954,7 +956,8 @@ def main(window):
 				menu_state = HEAPS
 			else:
 				menu_state = MERCH
-
+		if ONLY_SHOW_FOOD:
+			menu_state = HEAPS 
 		menu = menu_opts[menu_state]
 		if not any(menu.values()): # or menu_state == MERCH:
 			menu_state_timestamp = time.time()
