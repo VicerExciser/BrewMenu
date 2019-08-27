@@ -18,7 +18,7 @@ from google.auth.transport.requests import Request
 from google.auth.exceptions import TransportError
 from httplib2 import ServerNotFoundError
 
-ONLY_SHOW_FOOD=True
+ONLY_SHOW_FOOD=False
 
 RPI=0
 UBUNTU=1
