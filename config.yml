@@ -9,7 +9,7 @@ labels:
     food_cols:
         - Heaps
         - Halfway Cooks
-        - Cheese
+        - Sandwhiches
 
     merch_cols:
         - Item
