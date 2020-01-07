@@ -8,7 +8,6 @@ labels:
 
     food_cols:
         - Food
-        - Halfway Cooks
         - Sang Witches
 
     merch_cols:

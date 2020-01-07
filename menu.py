@@ -463,6 +463,7 @@ def create_beers_panel(window, start_row, start_col, title, content, max_cols=5,
 	return panel_w if title.lower() != 'name' else panel_w+2
 
 
+### For the full food menu ###
 def create_heaps_panel(window, start_row, start_col, title, content, max_rows=4, content_color=GREEN, title_art_font=heaps_lbls_font):
 	global food_menu_rows_fit_error, change_set_menu_height, heaps_panel_h_delta, heaps_init #, heaps_fit_err_cnt
 	panel = None
