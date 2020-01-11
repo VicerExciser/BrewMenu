@@ -13,3 +13,14 @@ labels:
     merch_cols:
         - Item
         - Cost
+
+times:
+    beer_menu_1:
+        - 30
+    beer_menu_2:
+        - 5
+    food_menu:
+        - 20
+    merch_menu:
+        - 10
+        

@@ -925,13 +925,13 @@ def create_snowflake(window):
     # panel_coords = merch_panel_coords if menu_state is MERCH else food_panel_coords if menu_state is HEAPS else beer_panel_coords
 
     # panel_coords = None 
-    if menu_state is BEERS1:
+    if menu_state == BEERS1:
         panel_coords = beer1_panel_coords
-    elif menu_state is BEERS2:
+    elif menu_state == BEERS2:
         panel_coords = beer2_panel_coords
-    elif menu_state is HEAPS:
+    elif menu_state == HEAPS:
         panel_coords = food_panel_coords
-    elif menu_state is MERCH:
+    elif menu_state == MERCH:
         panel_coords = merch_panel_coords
     valid_colspace = panel_coords.col_i+(width-panel_coords.col_f)  ## assumes a centered menu panel
 
@@ -1065,6 +1065,14 @@ def main(window):
 
     snowflakes = {}
 
+    with open("config.yml", 'r') as ymlfile:
+        cfg = yaml.load(ymlfile, Loader=yaml.Loader)
+    beers_col_lbls = cfg['labels']['beer_cols']
+    merch_time = int(cfg['times']['merch_menu'][0])
+    food_time  = int(cfg['times']['food_menu'][0])
+    beer1_time = int(cfg['times']['beer_menu_1'][0])
+    beer2_time = int(cfg['times']['beer_menu_2'][0])
+
     while True:
         scroll_cnt %= 1000000
         window.erase()
@@ -1076,11 +1084,13 @@ def main(window):
             draw_logo(window, logo_img, attrs=[curses.A_BOLD]) #, curses.A_UNDERLINE]) #, curses.A_REVERSE]) #, curses.A_BLINK])
 
         if menu_state == MERCH:
-            MENU_CHANGE_PERIOD = 10
+            MENU_CHANGE_PERIOD = merch_time
         elif menu_state == HEAPS:
-            MENU_CHANGE_PERIOD = 15
+            MENU_CHANGE_PERIOD = food_time
+        elif menu_state == BEERS2:
+        	MENU_CHANGE_PERIOD = beer2_time
         else:
-            MENU_CHANGE_PERIOD = 30
+            MENU_CHANGE_PERIOD = beer1_time
 
 
         if time.time() - menu_state_timestamp >= MENU_CHANGE_PERIOD:
