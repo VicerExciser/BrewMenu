@@ -29,7 +29,7 @@ RPI=0
 UBUNTU=1
 MACOSX=2
 
-CONTROL_OS = RPI #MACOSX
+CONTROL_OS = RPI #MACOSX 
 
 SHOW_BEERS_WIDETERM = False #True and (CONTROL_OS != RPI)
 SHOW_HEAPS_WIDETERM = False #True and (CONTROL_OS != RPI)
@@ -70,8 +70,9 @@ beers_ranges2_raw = ('A11:A17', 'B11:B17', 'C11:C17', 'D11:D17', 'E11:E17')
 
 # heaps_range = 'heaps!A1:A24'
 # heaps_ranges = ('heaps!A2:A4', 'heaps!A7:A10', 'heaps!A13:A16', 'heaps!A19:A24')
-heaps_ranges = ('food!A2:A7', 'food!A10:A14', 'food!A15:A18')
-heaps_ranges_raw = ('A2:A4', 'A7:A10', 'A13:A16', 'A19:A24')
+# heaps_ranges = ('food!A2:A7', 'food!A10:A14', 'food!A15:A18')
+heaps_ranges = ('food!A3:A9', 'food!A11:A15', 'food!A17:A21')
+# heaps_ranges_raw = ('A2:A4', 'A7:A10', 'A13:A16', 'A19:A24')    
 # heaps_col_lbls = ('Double Fried Belgian Fries', 'Cheese', 'Meat', 'Heaps Savory New Zealand Pies and Rolls')
 
 
@@ -436,7 +437,12 @@ def create_beers_panel(window, start_row, start_col, title, content, max_cols=5,
 
     inner_text_offset = 4 #5  #3
     row_cnt = 1 #2
+
+    # if len(title_art) > 0:
     top = title_art[0].strip()
+    # else:
+    #     top = [0]*80
+        
     # pad_cnt = 0
     # while (len(top)+4) < panel_w:
     #   top = ' ' + top + ' '
@@ -506,7 +512,8 @@ def create_heaps_panel(window, start_row, start_col, title, content, max_rows=4,
 
     screen_height, screen_width = max_dimensions(window)
 
-    panel_h = len(content) + title_art_lines + 3 #4 #5
+    # panel_h = len(content) + title_art_lines + 3 #4 #5
+    panel_h = title_art_lines + 3 #4 #5
 
     if menu_height != 0 and heaps_panel_h_delta == 0:
         heaps_panel_h_delta += max(((screen_height - menu_height) // max_rows), 0)  # -5), 0)
@@ -586,16 +593,15 @@ def create_heaps_panel(window, start_row, start_col, title, content, max_rows=4,
         for num, item in enumerate(content):
             line = str(content[num]).strip()
             if len(line)>1:
-                # if food_row_cnt == inner_text_offset:
-                if num == 0:
-                    line = title.strip() + '  { ' + line + ' }'
+                #if num == 0:
+                #    line = title.strip() + '  { ' + line + ' }'
                 title_end_x = inner_text_offset + len(title_art[0].strip())
                 line_start_x = 0
                 pad = inner_text_offset
 
                 ## For a right-aligned listing:
                 if food_alignment == RIGHT_ALIGN:
-                    pad = len(line) + inner_text_offset
+                    pad = len(line) + inner_text_offset + 1
                     # right_edge = panel_w + start_col
                     line_start_x = panel_w - pad
                     # if num == 0:
@@ -614,8 +620,8 @@ def create_heaps_panel(window, start_row, start_col, title, content, max_rows=4,
                 elif food_alignment == CENTER_ALIGN:
                     line_start_x = title_end_x + (((panel_w - title_end_x) - len(line)) // 2)
 
-                if num == 0:
-                    line_start_x = (panel_w - len(line)) // 2
+                #if num == 0:
+                #    line_start_x = (panel_w - len(line)) // 2
 
                 # if DEBUG_HEAPS:
                 #   log_debug(f'panel_title={title}\n\tpanel_h={panel_h},\tpanel_w={panel_w}' \
@@ -638,7 +644,12 @@ def create_heaps_panel(window, start_row, start_col, title, content, max_rows=4,
     else:
         top = title + '  { ' + str(content[0]).strip() + ' }'
         startcol = ((panel_w - len(top)) // 2)  # + start_col
-        panel.addstr(row_cnt, startcol, top, attr|curses.A_UNDERLINE)
+        #panel.addstr(row_cnt, startcol, top, attr|curses.A_UNDERLINE)
+        if food_alignment == RIGHT_ALIGN:
+            startcol = panel_w - (len(str(content[0]).strip()) + inner_text_offset + 1)
+        #elif food_alignment == CENTER_ALIGN:
+        #    startcol = panel_w - (len(str(content[0]).strip()) + inner_text_offset + 1)
+        panel.addstr(row_cnt, startcol, str(content[0]).strip(), attr|curses.A_UNDERLINE)
         row_cnt+=2
 
         bar_start = inner_text_offset
@@ -665,10 +676,10 @@ def create_heaps_panel(window, start_row, start_col, title, content, max_rows=4,
                     inner_text_offset = ((panel_w - len(s)) // 2) - 2
                 else:
                     inner_text_offset = 12
-                if HEAPS_LABELS_AS_IMGS and row == 0:
-                    panel.addstr(row_cnt, inner_text_offset, '{ '+s+' }', attr|curses.A_UNDERLINE)
-                else:
-                    panel.addstr(row_cnt, inner_text_offset, s, attr)
+                # if HEAPS_LABELS_AS_IMGS and row == 0:
+                #     panel.addstr(row_cnt, inner_text_offset, '{ '+s+' }', attr|curses.A_UNDERLINE)
+                # else:
+                panel.addstr(row_cnt, inner_text_offset, s, attr)
             else:
                 global heaps_lbls_font
                 # if heaps_fit_err_cnt < len(alt_heaps_lbl_fonts):
@@ -678,6 +689,8 @@ def create_heaps_panel(window, start_row, start_col, title, content, max_rows=4,
                 heaps_lbls_font = 'term'
                 heaps_init = False
                 change_set_menu_height = 1
+        else:
+            row_cnt += 1      # <-- Will include blank, spacer lines
 
     panel.attrset(curses.color_pair(WHITE))
     return panel_h

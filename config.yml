@@ -8,6 +8,7 @@ labels:
 
     food_cols:
         - Food
+        - Wings
         - Sang Witches
 
     merch_cols:
@@ -18,7 +19,7 @@ times:
     beer_menu_1:
         - 30
     beer_menu_2:
-        - 5
+        - 15
     food_menu:
         - 20
     merch_menu:
