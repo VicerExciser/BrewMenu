@@ -48,6 +48,8 @@ try:
 except KeyError:
     FILEPATH = '/home/halfway/BrewMenu/'
 
+config_file = os.path.join(FILEPATH, 'config.yml')
+
 CREDFILE = FILEPATH + 'credentials.json'
 TOKENFILE = FILEPATH + 'token.pickle'
 
@@ -164,7 +166,7 @@ def parse(vals):        # For currency and percentage values
 
 def menu_dict():
     global beers_col_lbls, heaps_col_lbls, merch_cols
-    with open("config.yml", 'r') as ymlfile:
+    with open(config_file, 'r') as ymlfile:
         cfg = yaml.load(ymlfile, Loader=yaml.Loader)
     beers_col_lbls = cfg['labels']['beer_cols']
     heaps_col_lbls = cfg['labels']['food_cols']
@@ -1083,7 +1085,7 @@ def main(window):
 
     snowflakes = {}
 
-    with open("config.yml", 'r') as ymlfile:
+    with open(config_file, 'r') as ymlfile:
         cfg = yaml.load(ymlfile, Loader=yaml.Loader)
     beers_col_lbls = cfg['labels']['beer_cols']
     merch_time = int(cfg['times']['merch_menu'][0])
