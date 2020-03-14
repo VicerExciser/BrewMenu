@@ -408,12 +408,14 @@ def create_beers_panel(window, start_row, start_col, title, content, max_cols=5,
         return panel_w
 
     if menu_state is BEERS1:
-        beer1_panel_coords.col_i = start_col
+        if beer1_panel_coords.col_i == 0:
+            beer1_panel_coords.col_i = start_col
         beer1_panel_coords.col_f = start_col+panel_w
         beer1_panel_coords.row_i = start_row
         beer1_panel_coords.row_f = start_row+panel_h
     elif menu_state is BEERS2:
-        beer2_panel_coords.col_i = start_col
+        if beer2_panel_coords.col_i == 0:
+            beer2_panel_coords.col_i = start_col
         beer2_panel_coords.col_f = start_col+panel_w
         beer2_panel_coords.row_i = start_row
         beer2_panel_coords.row_f = start_row+panel_h
@@ -540,9 +542,11 @@ def create_heaps_panel(window, start_row, start_col, title, content, max_rows=4,
     if panel is None:
         return panel_w
 
-    food_panel_coords.col_i = start_col
+    if food_panel_coords.col_i == 0:
+        food_panel_coords.col_i = start_col
     food_panel_coords.col_f = start_col+panel_w
-    food_panel_coords.row_i = start_row
+    if food_panel_coords.row_i == 0:
+        food_panel_coords.row_i = start_row
     food_panel_coords.row_f = start_row+panel_h
 
     attr_list = [
