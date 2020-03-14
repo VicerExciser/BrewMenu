@@ -23,6 +23,7 @@ SNOW = True
 COLLECT_SNOW = SNOW and False
 SNOW_ON_LOGO = SNOW and True
 
+#ONLY_SHOW_FOOD=True
 ONLY_SHOW_FOOD=False
 
 RPI=0
@@ -407,12 +408,12 @@ def create_beers_panel(window, start_row, start_col, title, content, max_cols=5,
         beer1_panel_coords.col_i = start_col
         beer1_panel_coords.col_f = start_col+panel_w
         beer1_panel_coords.row_i = start_row
-        beer1_panel_coords.row_i = start_row+panel_h
+        beer1_panel_coords.row_f = start_row+panel_h
     elif menu_state is BEERS2:
         beer2_panel_coords.col_i = start_col
         beer2_panel_coords.col_f = start_col+panel_w
         beer2_panel_coords.row_i = start_row
-        beer2_panel_coords.row_i = start_row+panel_h
+        beer2_panel_coords.row_f = start_row+panel_h
 
     attr_list = [
         curses.A_BOLD,
@@ -524,7 +525,7 @@ def create_heaps_panel(window, start_row, start_col, title, content, max_rows=4,
     if not heaps_init:
         heaps_init = True
 
-    panel_w = screen_width - 2
+    panel_w = screen_width - 4 #2
 
     while (start_col+panel_w) > (screen_width):
         #panel_w -= 1
@@ -539,7 +540,7 @@ def create_heaps_panel(window, start_row, start_col, title, content, max_rows=4,
     food_panel_coords.col_i = start_col
     food_panel_coords.col_f = start_col+panel_w
     food_panel_coords.row_i = start_row
-    food_panel_coords.row_i = start_row+panel_h
+    food_panel_coords.row_f = start_row+panel_h
 
     attr_list = [
         curses.A_BOLD,
@@ -783,7 +784,7 @@ def draw_merch_header(window, start_row, content=merch_header_text, content_colo
     merch_panel_coords.col_i = start_col
     merch_panel_coords.col_f = start_col+panel_w
     merch_panel_coords.row_i = start_row
-    merch_panel_coords.row_i = start_row+panel_h
+    merch_panel_coords.row_f = start_row+panel_h
 
     attr_list = [
         curses.A_BOLD,
@@ -936,7 +937,7 @@ def create_snowflake(window):
     column = random.randrange(0, width)
 
     # panel_coords = merch_panel_coords if menu_state is MERCH else food_panel_coords if menu_state is HEAPS else beer_panel_coords
-
+    
     # panel_coords = None 
     if menu_state == BEERS1:
         panel_coords = beer1_panel_coords
@@ -947,14 +948,7 @@ def create_snowflake(window):
     elif menu_state == MERCH:
         panel_coords = merch_panel_coords
     valid_colspace = panel_coords.col_i+(width-panel_coords.col_f)  ## assumes a centered menu panel
-
-    # if menu_state is BEERS1 or menu_state is BEERS2:
-    #     valid_colspace = (beer_panel_coords.col_i)+(width-beer_panel_coords.col_f)
-    # elif menu_state is HEAPS:
-    #     valid_colspace = (food_panel_coords.col_i)+(width-food_panel_coords.col_f)
-    # else:
-    #     valid_colspace = (merch_panel_coords.col_i)+(width-merch_panel_coords.col_f)
-
+    
     if not SNOW_ON_LOGO:
         if valid_colspace == 0:
             valid_colspace = (width-menu_width)//2
@@ -974,7 +968,18 @@ def create_snowflake(window):
     return 0, column, char
 
 def move_snowflakes(prev, window):
-    global valid_colspace
+    global valid_colspace, panel_coords
+    width = max_dimensions(window)[1]
+    if menu_state == BEERS1:
+        panel_coords = beer1_panel_coords
+    elif menu_state == BEERS2:
+        panel_coords = beer2_panel_coords
+    elif menu_state == HEAPS:
+        panel_coords = food_panel_coords
+    elif menu_state == MERCH:
+        panel_coords = merch_panel_coords
+    valid_colspace = panel_coords.col_i+(width-panel_coords.col_f)  ## assumes a centered menu panel
+
     new = {}
     for (row, column), char in prev.items():
         height, width = max_dimensions(window)
@@ -993,22 +998,22 @@ def move_snowflakes(prev, window):
                             column = random.randrange(width-valid_colspace,width)
                         except ValueError:
                             column = width-1
-                        char = ' '
+                        char = ''
                 else:
                     if column > valid_colspace:
                         try:
                             column = random.randrange(0,valid_colspace-1)
                         except ValueError:
                             column = 1
-                        char = ' '
-
+                        char = ''
+        
         if new_row >= panel_coords.row_i and (column >= panel_coords.col_i and column <= panel_coords.col_f):
             direction = random.randrange(0,1)
             if direction:
                 column = random.randrange(panel_coords.col_f, width)
             else:
                 column = random.randrange(0, panel_coords.col_i-1)
-
+        
         new[(new_row, column)] = char
     return new
 
