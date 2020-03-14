@@ -74,7 +74,8 @@ beers_ranges2_raw = ('A11:A17', 'B11:B17', 'C11:C17', 'D11:D17', 'E11:E17')
 # heaps_range = 'heaps!A1:A24'
 # heaps_ranges = ('heaps!A2:A4', 'heaps!A7:A10', 'heaps!A13:A16', 'heaps!A19:A24')
 # heaps_ranges = ('food!A2:A7', 'food!A10:A14', 'food!A15:A18')
-heaps_ranges = ('food!A3:A9', 'food!A11:A15', 'food!A17:A21')
+# heaps_ranges = ('food!A3:A9', 'food!A11:A15', 'food!A17:A21')
+heaps_ranges = ('food!A3:A8', 'food!A10:A14', 'food!A16:A19')
 # heaps_ranges_raw = ('A2:A4', 'A7:A10', 'A13:A16', 'A19:A24')    
 # heaps_col_lbls = ('Double Fried Belgian Fries', 'Cheese', 'Meat', 'Heaps Savory New Zealand Pies and Rolls')
 
