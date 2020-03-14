@@ -605,7 +605,7 @@ def create_heaps_panel(window, start_row, start_col, title, content, max_rows=4,
 
                 ## For a right-aligned listing:
                 if food_alignment == RIGHT_ALIGN:
-                    pad = len(line) + inner_text_offset + 1
+                    pad = len(line) + inner_text_offset #+ 1
                     # right_edge = panel_w + start_col
                     line_start_x = panel_w - pad
                     # if num == 0:
